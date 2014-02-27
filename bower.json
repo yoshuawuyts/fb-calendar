@@ -1,0 +1,26 @@
+{
+  "name": "zookeeper",
+  "version": "0.0.0",
+  "homepage": "https://github.com/yoshuawuyts/zookeeper",
+  "authors": [
+    "yoshuawuyts <i@yoshuawuyts.com>"
+  ],
+  "main": "index.js",
+  "license": "none",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "backbone": "~1.1.2",
+    "lodash": "~2.4.1",
+    "react": "~0.9.0",
+    "normalize-css": "~3.0.0",
+    "reset-css": "~2.0.20110126"
+  }
+}
