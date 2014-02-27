@@ -1,0 +1,75 @@
+/**
+ * Colors
+ *
+ * All colors defined here will be preprocessed
+ * using Myth (myth.io) for legacy support. 
+ * HSLA() syntax makes it easier to determine 
+ * what color is being used. HSL() syntax is 
+ * neglected for consistency.
+ *
+ * TODO: talk to designers about the amount of
+ * shades of gray (=<50).
+ */
+
+:root {
+  var-blue_fb: hsla(221, 44%, 41%, 1);
+  var-blue_fb_border: hsla(217, 69%, 37%, 3);
+  var-gray_canvas: hsla(0, 0%, 93%, 1);
+  var-gray_border: hsla(0, 0%, 85%, 1);
+  var-gray_text: hsla(0, 0%, 68%, 1);
+  var-gray_text_bold: hsla(0, 0%, 44%, 1);
+  var-gray_text_event: hsla(0, 0%, 51%, 1);
+  var-white: hsla(0, 0%, 100%, 1);
+}
+
+/**
+ * Element colors
+ */
+
+.blue_fb {
+  color: var(blue_fb);
+}
+
+.gray_text {
+  color: var(gray_text);
+}
+
+.gray_text_bold {
+  color: var(gray_text_bold);
+}
+
+.gray_text_event {
+  color: var(gray_text_event);
+}
+
+.white {
+  color: var(white);
+}
+
+/**
+ * Background colors
+ */
+
+.blue-bg_fb {
+  background-color: var(blue_fb);
+}
+
+.gray-bg_canvas {
+  background-color: var(gray_canvas);
+}
+
+.white-bg {
+  background-color: var(white);
+}
+
+/**
+ * Border colors
+ */
+
+.gray-border {
+  border-color: var(gray_border);
+}
+
+.blue-border_fb {
+  border-color: var(blue_fb_border);
+}

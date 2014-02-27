@@ -1,0 +1,53 @@
+/**
+ * Font faces
+ *
+ * Since no svg version of the logo is available
+ * we're importing a custom font (FACEBOLF.OTF). In
+ * order to properly render the body text we're
+ * pulling in the Lucida family.
+ */
+
+@font-face {
+  font-family: 'facebook';
+  src: url('fonts/FACEBOLF.OTF') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lucida';
+  src: url('fonts/Lucida Grande.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'LucidaBold';
+  src: url('fonts/Lucida Grande Bold.ttf') format('truetype');
+}
+
+/**
+ * Body text
+ */
+
+html,body,p,a {
+  font-family: 'Lucida';
+  font-size: 16px;
+}
+
+/**
+ * Headings
+ */
+
+.h1 {
+
+}
+
+/**
+ * Modifiers
+ *
+ * We're using .bold rather than strong
+ * due to the semantic meaning for screen
+ * readers. .bold should be used for non-
+ * paragraph text only.
+ */
+
+.bold {
+  font-family: 'LucidaBold';
+}

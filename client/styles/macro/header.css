@@ -1,0 +1,29 @@
+/**
+ * Header
+ *
+ * We're directly selecting header here. In this
+ * case it's safe because we are sure there will
+ * be only a single variation of the header. If 
+ * variations occured, they can be replaced with
+ * header[state='someState'] for modern browsers.
+ */
+
+header {
+  margin: 0 10px 0 10px;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-radius: 0 0 3px 3px;
+}
+
+/**
+ * Logo
+ */
+
+.header-logo {
+  margin: 0 0 0 10px;
+  padding-top: 10px;
+  font-family: 'facebook';
+  font-size: 26px;
+  line-height: 30px;
+  cursor: pointer;
+}

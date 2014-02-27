@@ -1,6 +1,9 @@
 'use strict';
 
-var autoprefixer = require('gulp-autoprefixer');
+/**
+ * Module dependencies
+ */
+
 var browserify = require('gulp-browserify');
 var eslint = require('gulp-eslint');
 var rename = require('gulp-rename');
@@ -11,14 +14,22 @@ var myth = require('gulp-myth');
 var csso = require('gulp-csso');
 var gulp = require('gulp');
 
+/**
+ * Compile JS
+ */
+
 gulp.task('modules', function() {
   gulp
-    .src('client/index.js')
+    .src('client/modules/index.js')
     .pipe(browserify({buffer: false, debug: true}))
-    .pipe(uglify({outSourceMap: true}))
+    //.pipe(uglify({outSourceMap: true}))
     .pipe(rename('application.js'))
     .pipe(gulp.dest('build/scripts/'));
 });
+
+/**
+ * Copy static files
+ */
 
 gulp.task('static', function() {
   gulp.src("client/vendor/localforage/dist/backbone.localforage.js").pipe(gulp.dest("build/vendor"));
@@ -29,14 +40,22 @@ gulp.task('static', function() {
   gulp.src("client/vendor/jquery/dist/jquery.min.js").pipe(gulp.dest("build/vendor"));
   gulp.src("client/vendor/react/react.min.js").pipe(gulp.dest("build/vendor"));
   gulp.src('client/images/**').pipe(gulp.dest('build/images/'));
-  gulp.src('client/fonts/**').pipe(gulp.dest('build/fonts'));
+  gulp.src('client/fonts/**').pipe(gulp.dest('build/styles/fonts'));
   gulp.src('client/index.html').pipe(gulp.dest('build/'));
 });
+
+/**
+ * Lint JS
+ */
 
 gulp.task('lint', function() {
   gulp.src(['client/**/*.js', 'client/**/**/*.js', 'client/**/**/**/*.js'])
     .pipe(eslint.format('stylish'))
 })
+
+/**
+ * Compile CSS
+ */
 
 gulp.task('styles', function() {
   gulp
@@ -52,6 +71,10 @@ gulp.task('styles', function() {
     .pipe(concat('styles.css'))
     .pipe(gulp.dest('build/styles'));
 });
+
+/**
+ * Default
+ */
 
 gulp.task('default', [
   'modules',
