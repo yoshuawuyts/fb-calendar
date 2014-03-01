@@ -25,15 +25,12 @@ module.exports = function(target) {
 
 var template = React.createClass({
 
-  getDefaultProps: function () {
-  },
-
   render: function() {
     return (
       React.DOM.div( null,
         headerComponent(),
         React.DOM.div({className: 'calendar-wrapper grid row'},
-          timeIndicatorComponent(),
+          timeIndicatorComponent({start: 900, end: 2100}),
           canvasComponent()
         )
       )

@@ -21,7 +21,7 @@ var Router = Backbone.Router.extend({
   routes: {
     '': 'calendar'
   },
-  calendar: function() { calendarView();}
+  calendar: function() { calendarView({start: 900, end: 2100});}
 });
 
 var router = new Router();
