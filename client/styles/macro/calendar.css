@@ -13,7 +13,7 @@
 
 .calendar-timeIndicator {
   display: inline-block;
-  margin-right: 10px;
+  margin: -15px 10px 0 0;
   width: 120px;
   text-align: right;
 }
@@ -36,6 +36,7 @@
 
 .calendar-canvas {
   display: inline-block;
+  position: absolute;
   width: 600px;
   height: 720px;
   border-left-width: 1px;
@@ -44,8 +45,7 @@
 }
 
 .event {
-  position: relative;
-  flex: 1 1 0;
+  position: absolute;
 }
 
 .event > div:last-child {
@@ -60,6 +60,7 @@
   top: 6px;
   margin-left: 12px;
   font-size: 14px;
+  line-height: 24px;
 }
 
 .event > div > p:first-child {
@@ -71,4 +72,8 @@
   position: absolute;
   height: 100%;
   width: 6px;
+}
+
+.event-row {
+  height: 0;
 }

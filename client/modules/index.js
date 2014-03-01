@@ -4,32 +4,34 @@
  * Module dependencies
  */
 
-var calendarView = require('./views/calendar');
+var calendarComponent = require('./views/calendar');
+var eventData = require('./resources/events.json');
+var React = require('react');
 
 /**
- * Router
+ * Call 'calendar' component with default values.
  *
- * If it were a larger project this would be the 
- * correct way to start. Adding additional views
- * should be made very easy.
- *
- * Replace with 'calendarView()' for correctness
- * in assignment scope.
+ * In a complete application the .json file would be 
+ * replaced with a DB call.
  */
 
-var Router = Backbone.Router.extend({
-  routes: {
-    '': 'calendar'
-  },
-  calendar: function() { calendarView();}
-});
-
-var router = new Router();
+calendarComponent(eventData);
 
 /**
- * Options
+ * Expose 'calendarComponent' to window. 
+ * 
+ * Needed for testing the layout from the console,
+ * when called it replaces the previous instance of
+ * 'calendarComponent'.
+ *
+ *    layOutDay([{start: 12, end: 200}, {start: 50, end: 400}]);
+ *
+ * @params {Array} events
+ * @params {Number}
+ * @params {Number}
+ * @api public
  */
 
-Backbone.history.start({
-  pushState: true
-});
+window.layOutDay = function(events, start, end) {
+  calendarComponent(events, start, end);
+};

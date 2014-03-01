@@ -4,13 +4,21 @@
  * Module dependencies
  */
 
-/*
- * Template
+var React = require('react');
+
+/**
+ * Render a header
+ *
+ * @api public
  */
  
 module.exports = React.createClass({
   
   displayName: 'Menu',
+
+  /**
+   * React component
+   */
 
   render: function() {
     return (
