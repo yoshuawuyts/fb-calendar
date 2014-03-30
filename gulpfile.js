@@ -49,7 +49,8 @@ gulp.task('static', function() {
  */
 
 gulp.task('lint', function() {
-  gulp.src(['client/**/*.js', 'client/**/**/*.js', 'client/**/**/**/*.js'])
+  gulp.src(['client/modules/*js', 'client/modules/**/*.js', 'client/modules/**/**/*.js', 'test/*.js', 'test/**/*.js'])
+    .pipe(eslint())
     .pipe(eslint.format('stylish'))
 })
 
@@ -72,12 +73,22 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('build/styles'));
 });
 
+gulp.task('test', function() {
+  gulp.src('test/*.js')
+    .pipe(mocha({reporter: 'dot'}))
+    .on('error', function(err) {
+      this.emit('end');
+    })
+})
+
 /**
  * Default
  */
 
 gulp.task('default', [
+  'lint',
   'modules',
   'static',
-  'styles'
+  'styles',
+  'test'
 ]);

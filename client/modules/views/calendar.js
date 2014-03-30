@@ -4,39 +4,53 @@
  * Module dependencies
  */
 
-var timeIndicatorComponent = require('./calendar/timeIndicator');
-var headerComponent = require('./header/header.js');
-var canvasComponent = require('./calendar/canvas');
+var TimeIndicatorComponent = require('./calendar/timeIndicator');
+var HeaderComponent = require('./header/header.js');
+var CanvasComponent = require('./calendar/canvas');
+var React = require('react');
 
 /**
- * Render
+ * Export 'renderComponent'
+ */
+
+module.exports = renderComponent;
+
+
+/**
+ * Calendar component
  *
- * The render function gets exported to be called from the
- * router.
+ * @props {Array} events
+ * @props {Number} start
+ * @props {Number} end
  */
 
-module.exports = function(target) {
-  React.renderComponent(template(), document.getElementById('root'));
-};
-
-/**
- * Template
- */
-
-var template = React.createClass({
-
-  getDefaultProps: function () {
-  },
+var CalendarComponent = React.createClass({
 
   render: function() {
+
     return (
       React.DOM.div( null,
-        headerComponent(),
+        HeaderComponent(),
         React.DOM.div({className: 'calendar-wrapper grid row'},
-          timeIndicatorComponent(),
-          canvasComponent()
+          TimeIndicatorComponent({start: this.props.start, end: this.props.end}),
+          CanvasComponent({events: this.props.events})
         )
       )
     );
   }
 });
+
+/**
+ * Render component in DOM
+ *
+ * @params {Array} events 
+ * @params {Number} start Value between 0 and 2400
+ * @params {Number} end Value between 0 and 2400
+ * @api public
+ */
+
+function renderComponent (events, start, end) {
+  start = start || 900;
+  end = end || 2100;
+  React.renderComponent(CalendarComponent( {events: events, start: start, end: end} ), document.getElementById('root'));
+}
