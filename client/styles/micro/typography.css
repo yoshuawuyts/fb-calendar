@@ -3,16 +3,8 @@
  */
 
 html,body,p,a {
-  font-family: 'Lucida';
+  font-family: Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
   font-size: 16px;
-}
-
-/**
- * Headings
- */
-
-.h1 {
-
 }
 
 /**
@@ -25,5 +17,5 @@ html,body,p,a {
  */
 
 .bold {
-  font-family: 'LucidaBold';
+  font-weight: bold;
 }

@@ -18,20 +18,7 @@ var React = require('react');
  */
  
 module.exports = React.createClass({
-  
   displayName: 'Event',
-
-  /**
-   * Calculate the start value.
-   *
-   * @params {Number} start
-   * @return {Number}
-   * @api private
-   */
-
-  start: function(start) {
-    return start;
-  },
 
   /**
    * Calculate the height of the element.
@@ -54,12 +41,11 @@ module.exports = React.createClass({
    * @props {Number} start
    * @props {Number} end
    * @props {Number} left
-   * @api public
+   * @api private
    */
 
   render: function() {
     var eventStyles = {
-      key: this.props.key,
       top: this.props.start, 
       left: this.props.left,
       height: this.height(this.props.start, this.props.end), 

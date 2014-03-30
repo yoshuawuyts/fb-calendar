@@ -15,16 +15,15 @@ var React = require('react');
  */
  
 module.exports = React.createClass({
-  
   displayName: 'Time unit',
 
   /**
    * Split hours ':' minutes.
    *
-   * @param {Number}
+   * @param {Number} time
    * @param {Boolean} oClock
    * @return {String}
-   * @api internal
+   * @api private
    */
 
   timeSplitter: function(time, oClock) {
@@ -45,9 +44,9 @@ module.exports = React.createClass({
   /**
    * Is it noon yet?
    *
-   * @param {Number}
+   * @param {Number} time
    * @return {String}
-   * @api internal
+   * @api private
    */
 
   midDay: function(time) {
@@ -59,7 +58,8 @@ module.exports = React.createClass({
    * React component
    *
    * @props {Number} time Time between 0 and 2400
-   * @props {Boolean} verbose Make it supersize?
+   * @props {Boolean} verbose
+   * @api private
    */
 
   render: function() {
@@ -67,7 +67,7 @@ module.exports = React.createClass({
     if (this.props.verbose) {
       return (
         React.DOM.div({className: 'calendar-timeUnit row'},
-          React.DOM.span({className: 'bold gray_text_bold'}, this.timeSplitter(this.props.time, true)),
+          React.DOM.span({className: 'bold gray_text_bold calendar-timeUnit_large'}, this.timeSplitter(this.props.time, true)),
           React.DOM.span({className: 'gray_text'}, this.midDay(this.props.time))
         )
       );
@@ -78,6 +78,5 @@ module.exports = React.createClass({
         React.DOM.span({className: 'gray_text'},  this.timeSplitter(this.props.time, false))
       )
     );
-
   }
 });
