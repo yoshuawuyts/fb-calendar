@@ -22,9 +22,17 @@ module.exports = renderComponent;
  * @props {Array} events
  * @props {Number} start
  * @props {Number} end
+ * @api public
  */
 
 var CalendarComponent = React.createClass({
+  displayName: 'Calendar',
+  
+  /**
+   * Render component
+   *
+   * @api private
+   */
 
   render: function() {
 

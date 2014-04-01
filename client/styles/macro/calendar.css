@@ -22,6 +22,11 @@
   position: relative;
   justify-content: flex-end;
   line-height: 30px;
+  cursor: default;
+}
+
+.calendar-timeUnit_large {
+  line-height: 28px;
 }
 
 .calendar-timeUnit > span:last-child {
@@ -52,20 +57,30 @@
   border-width: 1px 1px 1px 0;
   border-style: solid;
   height: 100%;
+  cursor: default;
 }
 
 .event > div > p {
   display: inline-block;
   position: relative;
-  top: 6px;
   margin-left: 12px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 24px;
+}
+
+.event > div > p:first-child {
+  top: 6px;
+  font-size: 14px;
 }
 
 .event > div > p:first-child {
   font-size: 17px;
   line-height: 24px;
+}
+
+.event > div > p:first-child:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .event-indicator {

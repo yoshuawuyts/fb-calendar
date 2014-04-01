@@ -6,12 +6,17 @@
  */
 
 var canvas = require('../client/modules/views/calendar/canvas');
+var unsortedArray = require('./unsortedArrays/unsorted.json');
 var widthMatrix1 = require('./widthMatrixes/matrix1.json');
 var widthMatrix2 = require('./widthMatrixes/matrix2.json');
 var widthMatrix3 = require('./widthMatrixes/matrix3.json');
-var boolMatrix1 = require('./boolMatrixes/matrix1.json');
-var boolMatrix2 = require('./boolMatrixes/matrix2.json');
-var boolMatrix3 = require('./boolMatrixes/matrix3.json');
+var sortedArray = require('./unsortedArrays/sorted.json');
+var pathMatrix1 = require('./pathMatrixes/matrix1.json');
+var pathMatrix2 = require('./pathMatrixes/matrix2.json');
+var pathMatrix3 = require('./pathMatrixes/matrix3.json');
+var dupArray1 = require('./duplicatePaths/array1.json');
+var dupArray2 = require('./duplicatePaths/array2.json');
+var dupArray3 = require('./duplicatePaths/array3.json');
 var widthArray1 = require('./widthArrays/array1.json');
 var widthArray2 = require('./widthArrays/array2.json');
 var widthArray3 = require('./widthArrays/array3.json');
@@ -20,13 +25,6 @@ var base1 = require('./baseArrays/array1.json');
 var base2 = require('./baseArrays/array2.json');
 var base3 = require('./baseArrays/array3.json');
 var should = require('should');
-
-/**
- * Initialize variables
- */
-
-var eventArray1;
-var eventArray2;
 
 /**
  * Tests
@@ -45,6 +43,15 @@ describe('canvas', function () {
       eventSorter.should.exist;
       done();
     });
+
+    it('should sort arrays', function (done) {
+      var unsorted = eventSorter(unsortedArray);
+      sortedArray.forEach(function(elementOne, indexOne) {
+        unsortedArray[indexOne].start.should.equal(elementOne.start);
+        unsortedArray[indexOne].end.should.equal(elementOne.end);
+      });
+      done();
+    });
   });
 
   /**
@@ -59,69 +66,29 @@ describe('canvas', function () {
       done();
     });
 
-    describe('array1', function () {
-      var boolMatrix = eventInspector(base1);
+    var pathMatrix = [eventInspector(base1), eventInspector(base2), eventInspector(base3)];
+    var comparedMatrix = [pathMatrix1, pathMatrix2, pathMatrix3];
 
-      it('should return a matrix of booleans', function (done) {
-        boolMatrix.forEach(function(elementZero) {
-          elementZero.forEach(function(elementOne) {
-            elementOne.should.be.type('boolean');
-          });
-        });
-        done();
-      });
+    pathMatrix.forEach(function(elementZero, indexZero) {
 
-      it('should return the correct matrix of booleans', function (done) {
-        boolMatrix.forEach(function(elementZero, indexZero) {
+      describe('array' + indexZero, function () {
+        it('should return an array of numbers', function (done) {
           elementZero.forEach(function(elementOne, indexOne) {
-            elementOne.should.equal(boolMatrix1[indexZero][indexOne]);
+            elementOne.forEach(function(elementTwo, indexTwo) {
+              elementTwo.should.be.type('number');
+            });
           });
+          done();
         });
-        done();
-      });
-    });
 
-    describe('array2', function () {
-      var boolMatrix = eventInspector(base2);
-
-      it('should return a matrix of booleans', function (done) {
-        boolMatrix.forEach(function(elementZero) {
-          elementZero.forEach(function(elementOne) {
-            elementOne.should.be.type('boolean');
-          });
-        });
-        done();
-      });
-
-      it('should return the correct matrix of booleans', function (done) {
-        boolMatrix.forEach(function(elementZero, indexZero) {
+        it('should return the correct array of numbers', function (done) {
           elementZero.forEach(function(elementOne, indexOne) {
-            elementOne.should.equal(boolMatrix2[indexZero][indexOne]);
+            elementOne.forEach(function(elementTwo, indexTwo) {
+              elementTwo.should.equal(comparedMatrix[indexZero][indexOne][indexTwo]);
+            });
           });
+          done();
         });
-        done();
-      });
-    });
-
-    describe('array3', function () {
-      var boolMatrix = eventInspector(base3);
-
-      it('should return a matrix of booleans', function (done) {
-        boolMatrix.forEach(function(elementZero) {
-          elementZero.forEach(function(elementOne) {
-            elementOne.should.be.type('boolean');
-          });
-        });
-        done();
-      });
-
-      it('should return the correct matrix of booleans', function (done) {
-        boolMatrix.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne, indexOne) {
-            elementOne.should.equal(boolMatrix3[indexZero][indexOne]);
-          });
-        });
-        done();
       });
     });
   });
@@ -138,70 +105,44 @@ describe('canvas', function () {
      done();
     });
 
-    describe('array1', function() {
-      var widthMatrix = rowInspector(boolMatrix1);
+    var pathMatrix = [rowInspector(pathMatrix1), rowInspector(pathMatrix2), rowInspector(pathMatrix3)];
+    var comparedArray = [dupArray1, dupArray2, dupArray3];
 
-      it('should return an array of arrays', function (done) {
-        widthMatrix.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne) {
-            elementOne.should.be.type('number');
-          });
-        });
-        done();
-      });
+    pathMatrix.forEach(function(elementZero, indexZero) {
 
-      it('should return the correct array', function (done) {
-        widthMatrix1.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne, indexOne) {
-            elementOne.should.equal(widthMatrix[indexZero][indexOne]);
-          });
+      describe('array' + indexZero, function () {   
+        it('should clean up item paths', function (done) {
+          comparedArray[indexZero].forEach(function(elementOne, indexOne) {
+            elementOne.forEach(function(elementTwo, indexTwo) {
+              pathMatrix[indexZero][indexOne][indexTwo].should.equal(elementTwo);
+            });
+          }); 
+          done();
         });
-        done();
       });
     });
+  });
 
-    describe('array2', function() {
-      var widthMatrix = rowInspector(boolMatrix2);
+  /**
+   * dupRemover
+   */
 
-      it('should return an array of arrays', function (done) {
-        widthMatrix2.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne) {
-            elementOne.should.be.type('number');
-          });
-        });
-        done();
-      });
+  describe('#rowInspector()', function() {
+    var dupRemover = canvas.originalSpec.dupRemover;
 
-      it('should return the correct array', function (done) {
-        widthMatrix2.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne, indexOne) {
-            elementOne.should.equal(widthMatrix[indexZero][indexOne]);
-          });
-        });
-        done();
-      });
+    it('should exist', function(done){
+      dupRemover.should.exist;
+      done();
     });
 
-    describe('array3', function() {
-      var widthMatrix = rowInspector(boolMatrix3);
-
-      it('should return an array of arrays', function (done) {
-        widthMatrix.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne) {
-            elementOne.should.be.type('number');
-          });
+    it('should remove duplicate paths', function (done) {
+      var dupArray = dupRemover(dupArray3);
+      widthMatrix3.forEach(function(elementZero, indexZero) {
+        elementZero.forEach(function(elementOne, indexOne) {
+          dupArray[indexZero][indexOne].should.equal(elementOne);
         });
-        done();
       });
-
-      it('should return the correct array', function (done) {
-        widthMatrix3.forEach(function(elementZero, indexZero) {
-          elementZero.forEach(function(elementOne, indexOne) {
-            elementOne.should.equal(widthMatrix[indexZero][indexOne]);
-          });
-        });
-        done();
-      });
+      done();
     });
   });
 
@@ -217,65 +158,40 @@ describe('canvas', function () {
       done();
     });
 
-    describe('array 1', function () {
-      var eventArray = computeWidth(base1, widthMatrix1);
+    var eventArray = [
+      computeWidth(base1, widthMatrix1), 
+      computeWidth(base2, widthMatrix2), 
+      computeWidth(base3, widthMatrix3)
+    ];
 
-      it('should assign a width to all items', function(done) {
-        eventArray.forEach(function(elementZero) {
-          elementZero.width.should.be.ok;
+    var comparedArray = [
+      [100, 50, 50, 25, 25, 50], 
+      [100, 33, 33, 33, 33],
+      [100, 50, 50, 25, 25, 12.5, 12.5]
+    ];
+
+    eventArray.forEach(function(elementZero, indexZero) {
+      describe('array ' + indexZero, function () {
+
+        it('should assign a width to all items', function(done) {
+          elementZero.forEach(function(elementOne) {
+            elementOne.width.should.be.ok;
+          });
+          done();
         });
-        done();
-      });
 
-      it('should assign the correct width to all items', function(done) {
-        var compareArray = [100, 50, 50, 25, 25, 50];
-        
-        compareArray.forEach(function(elementZero, indexZero) {
-          elementZero.should.equal(eventArray[indexZero].width);
+        it('should assign the correct width to all items', function(done) {         
+          elementZero.forEach(function(elementOne, indexOne) {
+            // case #2 implodes the world by dividing by three; round that sucker.
+            if (indexZero != 1) {
+              elementOne.width.should.equal(comparedArray[indexZero][indexOne]);
+            } else {
+              Math.round(elementOne.width).should.equal(comparedArray[indexZero][indexOne]);
+            }
+          });
+          done();
         });
-        done();
       });
-    });
-
-    describe('array 2', function () {
-      var eventArray = computeWidth(base2, widthMatrix2);
-
-      it('should assign a width to all items', function(done) {
-        eventArray.forEach(function(elementZero) {
-          elementZero.width.should.be.ok;
-        });
-        done();
-      });
-
-      it('should assign the correct width to all items', function(done) {
-        var compareArray = [100, 33, 33, 33, 33];
-        
-        compareArray.forEach(function(elementZero, indexZero) {
-          elementZero.should.equal(Math.round(eventArray[indexZero].width));
-        });
-        done();
-      });
-    });
-
-    describe('array 3', function () {
-      var eventArray = computeWidth(base3, widthMatrix3);
-
-      it('should assign a width to all items', function(done) {
-        eventArray.forEach(function(elementZero) {
-          elementZero.width.should.be.ok;
-        });
-        done();
-      });
-
-      it('should assign the correct width to all items', function(done) {
-        var compareArray = [100, 50, 50, 25, 25, 12.5, 12.5];
-        
-        compareArray.forEach(function(elementZero, indexZero) {
-          elementZero.should.equal(eventArray[indexZero].width);
-        });
-        done();
-      });
-
     });
   });
 
@@ -291,39 +207,31 @@ describe('canvas', function () {
       done();
     });
 
-    describe('array1', function () {
-      var widthArray = computeMargin(widthArray1, widthMatrix1);
-      it('should assign the correct margin to all items', function (done) {
-        var compareArray = [0, 0, 50, 0, 25, 50];
-        compareArray.forEach(function(elementZero, indexZero) {
-          debug('array1', elementZero, widthArray[indexZero].left);
-          widthArray[indexZero].left.should.equal(elementZero);
-        });
-        done();
-      });
-    });
+    var widthArray = [
+      computeMargin(widthArray1, widthMatrix1),
+      computeMargin(widthArray2, widthMatrix2),
+      computeMargin(widthArray3, widthMatrix3)
+    ];
 
-    describe('array2', function () {
-      var widthArray = computeMargin(widthArray2, widthMatrix2);
-      it('should assign the correct margin to all items', function (done) {
-        var compareArray = [0, 0, 33, 67, 0];
-        compareArray.forEach(function(elementZero, indexZero) {
-          debug('array2', elementZero, widthArray[indexZero].left);
-          Math.round(widthArray[indexZero].left).should.equal(elementZero);
-        });
-        done();
-      });
-    });
+    var comparedArray = [
+      [0, 0, 50, 0, 25, 50],
+      [0, 0, 33, 67, 0],
+      [0, 0, 50, 0, 25, 25, 37.5]
+    ];
 
-    describe('array3', function () {
-      var widthArray = computeMargin(widthArray3, widthMatrix3);
-      it('should assign the correct margin to all items', function (done) {
-        var compareArray = [0, 0, 50, 0, 25, 25, 37.5];
-        compareArray.forEach(function(elementZero, indexZero) {
-          debug('array3', elementZero, widthArray[indexZero].left);
-          widthArray[indexZero].left.should.equal(elementZero);
+    widthArray.forEach(function(elementZero, indexZero) {
+      describe('array1', function () {
+        it('should assign the correct margin to all items', function (done) {
+          elementZero.forEach(function(elementOne, indexOne) {
+            // case #2 implodes the world by dividing by three; round that sucker.
+            if (indexZero != 1) {
+              elementOne.left.should.equal(comparedArray[indexZero][indexOne]);
+            } else {
+              Math.round(elementOne.left).should.equal(comparedArray[indexZero][indexOne]); 
+            }
+          });
+          done();
         });
-        done();
       });
     });
   });

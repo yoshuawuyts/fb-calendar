@@ -13,17 +13,19 @@ header {
   border-width: 0 1px 1px 1px;
   border-style: solid;
   border-radius: 0 0 3px 3px;
+  height: 39px;
 }
 
 /**
  * Logo
  */
 
-.header-logo {
-  margin: 0 0 0 10px;
-  padding-top: 10px;
-  font-family: 'facebook';
-  font-size: 26px;
-  line-height: 30px;
+.facebook-logo {
+  position: absolute;
+  left: 10px;
+  margin: 6px 0 0 10px;
+  height: 30px;
+  width: 160px;
   cursor: pointer;
+  fill: white;
 }

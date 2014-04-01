@@ -4,7 +4,7 @@
  * Module dependencies
  */
 
-var timeComponent = require('./timeIndicator/timeUnit');
+var TimeComponent = require('./timeIndicator/timeUnit');
 var React = require('react');
 
 /**
@@ -17,25 +17,24 @@ var React = require('react');
  */
  
 module.exports = React.createClass({
-  displayName: 'Canvas',
+  displayName: 'Time indicator',
 
   /**
-   * React component
+   * Render component
+   *
+   * @api private
    */
 
   render: function() {
-    var start = this.props.start;
-    var end = this.props.end;
     var rows = [];
 
-    // render time stamps
-    for (var i = start; i <= end; i += 50) {
+    for (var i = this.props.start, end = this.props.end; i <= end; i += 50) {
 
       // alternate between large and small tags
       if (i % 100 == 0) {
-        rows.push(timeComponent({time: i, verbose: true}));
+        rows.push(TimeComponent({key: i, time: i, verbose: true}));
       } else {
-        rows.push(timeComponent({time: i, verbose: false}));
+        rows.push(TimeComponent({key: i, time: i, verbose: false}));
       }
     }
 

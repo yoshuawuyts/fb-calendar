@@ -46,75 +46,47 @@ module.exports = React.createClass({
   },
 
   /**
-   * Compare events and determine if they're neighbours
+   * Compare events and determine if they're neighbours.
+   *
+   * Renders an array of elements neighbouring the target node +
+   * the target node.
    *
    * @params {Object} [event]
-   * @return {Boolean}
+   * @return {Number}
    * @api private
    */
 
   eventInspector: function(eventArray) {
-    var boolMatrix = [];
+    var pathMatrix = [];
 
     eventArray.forEach(function(eventZero, indexZero) {
       var tmpArray = [];
 
       eventArray.forEach(function(eventOne, indexOne){
-
-        // don't check yourself, this is no place for introspection
-        if (indexOne != indexZero) {
-
-          // check if events overlapCount
-          if (eventOne.start < eventZero.end && eventZero.start < eventOne.end) {
-            tmpArray.push(true);
-          } else {
-            tmpArray.push(false);
-          }
-
-        } else {
-          tmpArray.push(false);
+        // check if events overlap
+        if (eventOne.start < eventZero.end && eventZero.start < eventOne.end) {
+          tmpArray.push(indexOne);
         }
       });
 
-      boolMatrix.push(tmpArray);
+      pathMatrix.push(tmpArray);
     });
 
-    return boolMatrix;
+    return pathMatrix;
   },
 
   /**
-   * Compute neighbouring rows
+   * Clean up item paths.
    *
-   * Calculate rows of neighbouring elements -> remove duplicates -> enforce
-   * correctness in rows.
+   * Check if elements in each array of paths are neighbours of one another. If
+   * not the element gets kicked out.
    *
-   * @param {Object} [event]
-   * @param {Object} [boolMatrix]
+   * @param {Number} [[path]]
    * @return {Object}
    * @api private
    */
 
-  rowInspector: function (boolMatrix) {
-    var pathMatrix = [];
-
-    // calculate rows
-    boolMatrix.forEach(function(elementZero, indexZero) {
-      var widthElement = [];
-      elementZero.forEach(function(elementOne, indexOne) {
-        
-        // add overlapping elements to the matrix
-        if (elementOne == true) {
-          widthElement.push(indexOne);
-        }
-        
-        // add self to list
-        if (indexOne == indexZero) {
-          widthElement.push(indexZero);
-        }
-      });
-      pathMatrix.push(widthElement);
-    });
-
+  rowInspector: function (pathMatrix) {
     // remove faulty arrays
     var tmpMatrix = [];
 
@@ -153,13 +125,22 @@ module.exports = React.createClass({
       tmpMatrix.push(tmpArray);
     });
 
-    pathMatrix = tmpMatrix;
+    return tmpMatrix;
+  },
 
-    // remove duplicate rows
+  /**
+   * Remove duplicate paths.
+   *
+   * @params {Object} [[path]]
+   * @return {Boolean}
+   * @api private
+   */
+
+  dupRemover: function(pathMatrix) {
     pathMatrix.forEach(function(elementZero, indexZero) {
       pathMatrix.forEach(function(elementOne, indexOne) {
         
-        // guilty unless proven otherwise
+        // assume equality unless proven otherwise
         var equivalent = true;
         elementZero.forEach(function(elementTwo, indexTwo) {
           
@@ -185,11 +166,10 @@ module.exports = React.createClass({
   },
 
   /** 
-   * Compute width
+   * Compute event width.
    *
    * @param {Object} [event]
-   * @param {Object} [pathArray]
-   * @param {Number} canvasWidth
+   * @param {Number} [[path]]
    * @return {Object}
    * @api private
    */
@@ -216,14 +196,12 @@ module.exports = React.createClass({
    * Compute margin
    *
    * @param {Object} [event]
-   * @param {Number} canvasWidth
+   * @param {Number} [[path]]
    * @return {Object}
    * @api private
    */
 
   computeMargin: function(eventArray, pathMatrix) {
-    console.log(pathMatrix);
-
     pathMatrix.forEach(function(elementZero, indexZero) {
       var length = 0;
       elementZero.forEach(function(elementOne, indexOne) {
@@ -233,22 +211,22 @@ module.exports = React.createClass({
           if (indexOne == 0) length = (length + event.left) % 100;
           length = (length + event.width) % 100;
         } else {
-          if (length >= 99) length = Math.round(length) % 100;
+          // rounding magic because floats aren't true numbers
+          if (length >= 99) length = Math.ceil(length) % 100;
           event.left = length;
           length = (length + event.width) % 100;
         }
       });
     });
-    console.log(eventArray);
+
     return eventArray;
   },
 
   /**
-   * Churn out elements to be rendered
+   * Churn out elements to be rendered.
    *
    * @param {Object} [event]
    * @param {Object} [width]
-   * @param {Object} [leftMargin]
    * @return {Object}
    * @api private
    */
@@ -274,24 +252,26 @@ module.exports = React.createClass({
    *
    * @props {Number} canvasWidth
    * @props {Object} events
-   * @api public
+   * @api private
    */
 
   render: function() {
     var canvasWidth = this.props.canvasWidth - 20 || 600;
     var eventArray = this.props.events;
-    var boolMatrix = [];
     var pathMatrix = [];
     var matrix = [];
 
     // Sort the array
     eventArray = this.eventSorter(eventArray);
 
-    // Compute neighbour positions.
-    boolMatrix = this.eventInspector(eventArray);
+    // Compute raw item paths.
+    pathMatrix = this.eventInspector(eventArray);
 
-    // Compute item paths.
-    pathMatrix = this.rowInspector(boolMatrix);
+    // Clean up item paths.
+    pathMatrix = this.rowInspector(pathMatrix);
+
+    // Remove duplicate paths.
+    pathMatrix = this.dupRemover(pathMatrix);
 
     // Compute item size.
     eventArray = this.computeWidth(eventArray, pathMatrix);
